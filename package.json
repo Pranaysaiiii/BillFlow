@@ -1,0 +1,9 @@
+{
+  "name": "billflow-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered invoicing for WhatsApp-first small businesses.",
+  "scripts": {
+    "check:repo": "node -e \"console.log('Repository scaffold ready. Add app-specific scripts when each workspace is initialized.')\""
+  }
+}
