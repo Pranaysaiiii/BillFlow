@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type OrderStatus = 'pending' | 'needs_review' | 'approved' | 'invoiced';
 export type InvoiceStatus = 'draft' | 'approved' | 'paid' | 'cancelled';
 export type GuardianSeverity = 'low' | 'medium' | 'high';
@@ -63,10 +64,49 @@ export interface Invoice {
   invoice_number: string;
   invoice_date: string;
   subtotal: number;
+=======
+// BillFlow AI - Shared Contract & Types
+export type OrderStatus = 'draft' | 'pending_review' | 'confirmed' | 'cancelled';
+
+export interface Customer {
+  id?: string;
+  name: string;
+  phone?: string;
+  gstin?: string;
+  state: string; // e.g. "Maharashtra", "Delhi"
+}
+
+export interface RawOrderItem {
+  productName: string;
+  quantity: number;
+  unitPrice?: number;
+  hsnCode?: string;
+  notes?: string;
+}
+
+export interface ExtractedOrderAI {
+  customerName?: string;
+  customerPhone?: string;
+  items: RawOrderItem[];
+  rawText: string;
+  confidence: number;
+  intentNotes?: string;
+}
+
+export interface ProcessedInvoiceItem {
+  id?: string;
+  productName: string;
+  hsnCode: string;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+  gstRate: number; // 5, 12, 18, 28 (%)
+>>>>>>> 12d1e5d (chore: initialize BillFlow AI repository)
   cgst: number;
   sgst: number;
   igst: number;
   total: number;
+<<<<<<< HEAD
   status: InvoiceStatus;
   ai_confidence: number | null;
   created_at: string;
@@ -102,4 +142,56 @@ export interface GuardianWarning {
   message: string;
   previousValue: string | number | null;
   currentValue: string | number | null;
+=======
+  memoryApplied?: {
+    field: string;
+    originalValue?: any;
+    resolvedValue: any;
+    reason: string;
+  }[];
+}
+
+export interface GuardianWarning {
+  code: 'LOW_CONFIDENCE' | 'PRICE_ANOMALY' | 'MISSING_PRICE' | 'INVALID_GSTIN' | 'UNMATCHED_ITEM';
+  severity: 'info' | 'warning' | 'critical';
+  message: string;
+  field?: string;
+}
+
+export interface GuardianReport {
+  isCompliant: boolean;
+  requiresHumanReview: boolean;
+  confidenceScore: number;
+  warnings: GuardianWarning[];
+  memoryUsed: boolean;
+  summary: string;
+}
+
+export interface ProcessOrderRequest {
+  rawText: string;
+  customerHint?: string;
+  senderPhone?: string;
+  businessState?: string;
+}
+
+export interface ProcessOrderResponse {
+  success: boolean;
+  orderId: string;
+  invoiceNumber: string;
+  createdAt: string;
+  customer: Customer;
+  items: ProcessedInvoiceItem[];
+  subtotal: number;
+  cgstTotal: number;
+  sgstTotal: number;
+  igstTotal: number;
+  grandTotal: number;
+  guardianReport: GuardianReport;
+  rawInput: string;
+}
+
+export interface InvoiceRecord extends ProcessOrderResponse {
+  status: OrderStatus;
+  paymentStatus: 'unpaid' | 'paid' | 'partial';
+>>>>>>> 12d1e5d (chore: initialize BillFlow AI repository)
 }

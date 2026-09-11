@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Architecture Overview
 
 ## System architecture
@@ -70,3 +71,44 @@ This project intentionally remains focused on a minimal end-to-end flow:
 - shared storage and dashboard visibility
 
 The backlog is intentionally small and aligned to the 5-hour demo window.
+=======
+# BillFlow AI — System Architecture
+
+```mermaid
+flowchart TD
+    subgraph ClientLayer ["Client Layer"]
+        M[Developer 1: Mobile Expo App]
+        W[Developer 3: Web Dashboard React]
+    end
+
+    subgraph BackendEngine ["Developer 2: Backend + AI Engine"]
+        API[Express API Server :3001]
+        EXT[AI Extractor Gemini 1.5 JSON]
+        MEM[Business Memory Engine]
+        CALC[Deterministic GST Engine]
+        GRD[Invoice Guardian Auditor]
+    end
+
+    subgraph Persistence ["Persistence Layer"]
+        DB[(Supabase PostgreSQL)]
+        MEM_CACHE[(In-Memory Demo Cache)]
+    end
+
+    M -- "POST /api/process-order (Raw text)" --> API
+    API --> EXT
+    EXT --> MEM
+    MEM -- "Look up previous rates & context" --> DB
+    MEM -- "Fallback history" --> MEM_CACHE
+    MEM --> CALC
+    CALC -- "CGST/SGST/IGST Math" --> GRD
+    GRD -- "Audit compliance & warnings" --> API
+    API -- "Persist invoice & items" --> DB
+    API -- "Return structured JSON" --> M
+    W -- "GET /api/invoices" --> API
+```
+
+## Key Principles:
+1. **Never let LLMs do GST math**: The AI extracts product names and quantities. The TypeScript engine calculates exact percentages, roundings, and tax breakdown deterministically.
+2. **Business Memory**: Solves the real-world problem where customers say *"Send 10 more pipes at regular rate"*. Memory recovers previous rates automatically.
+3. **Invoice Guardian**: Flags missing GSTIN, price anomalies (>₹100k or ₹0), and low confidence parsing so the shopkeeper is always in control before filing.
+>>>>>>> 12d1e5d (chore: initialize BillFlow AI repository)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # BillFlow AI
 
 AI-powered invoicing for WhatsApp-first small businesses.
@@ -43,3 +44,38 @@ This repository is intentionally minimal and hackathon-friendly. It sets up the 
 - Do not push unfinished work directly to main.
 - Use the documented feature branches and pull requests for collaboration.
 - Do not change shared interfaces without notifying the team.
+=======
+# BillFlow AI 🚀
+> Autonomous Agent that extracts orders from WhatsApp, applies Business Memory, validates GST compliance with Invoice Guardian, and generates deterministic invoices.
+
+## Repository Structure
+```text
+BillFlow/
+├── backend/          # Developer 2 (Node/TS Server + AI Pipeline)
+│   ├── src/
+│   │   ├── aiExtractor.ts    # Gemini 1.5 JSON parser with fallback
+│   │   ├── memory.ts         # Customer history & price resolution
+│   │   ├── gstCalculator.ts  # Deterministic CGST/SGST/IGST math
+│   │   ├── guardian.ts       # Compliance & fraud detection
+│   │   ├── server.ts         # Express API (:3001)
+│   │   └── test-pipeline.ts  # E2E test runner
+│   └── package.json
+├── shared/           # Shared types (Single source of truth)
+│   └── types/index.ts
+├── supabase/         # PostgreSQL schema & migrations
+│   └── migrations/01_init.sql
+└── docs/             # API & Architecture documentation
+    ├── api-contract.md
+    └── architecture.md
+```
+
+## Quick Start (Developer 2 Backend)
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Server runs at `http://localhost:3001`.
+Test endpoint: `POST /api/process-order`
+>>>>>>> 12d1e5d (chore: initialize BillFlow AI repository)

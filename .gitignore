@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .env
 .env.local
 .env.*.local
@@ -6,3 +7,10 @@ node_modules
 dist
 build
 coverage
+=======
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+>>>>>>> 12d1e5d (chore: initialize BillFlow AI repository)
